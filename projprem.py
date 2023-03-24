@@ -91,7 +91,8 @@ def checkpagelivre(nomlivre, outfile):      #recupe la page du livre et recupere
         ps = soup.findAll('p')
 
         #ajout de la description du produit mets des guillement car virgule dedans. remplace ensuite toutes les guillemets par des doubles car convention
-        result.append('"'+ps[3].text.replace('"','""')+'"')
+        # result.append('"'+ps[3].text.replace('"','""')+'"')
+        result.append('"'+soup.findAll['meta'].find["class":"description"].text.replace('"','""')+'"')
 
         #ajout de la categorie
         result.append(soup.findAll('a')[3].text)

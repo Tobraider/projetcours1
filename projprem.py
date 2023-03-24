@@ -21,7 +21,7 @@ def recupecategorie(liendusite):    #recupere toutes les categorie et les parcou
 def checkcategorie(liendepage):     #recupere tout les liens des pages livres et les parcours
 
     #recupere le nom de la categorie et en fait le nom du ficher
-    nomfichier = "./result/"+liendepage.split('/')[-2].split('_')[0] + ".csv"
+    nomfichier = "./result/CSV/"+liendepage.split('/')[-2].split('_')[0] + ".csv"
     with open(nomfichier, "w", encoding="utf-8") as outfile:
 
         #entete des categorie. elles sont les meme quelque soit la categorie
@@ -75,8 +75,8 @@ def checkpagelivre(nomlivre, outfile):      #recupe la page du livre et recupere
         #ajout de UPC
         result.append(tds[0].text)
 
-        #ajout du titre stocker dans le premier <h1>
-        result.append(soup.find('h1').text)
+        #ajout du titre stocker dans le premier <h1>. Double guillemets pour eviter tout conflit possible de syntaxe dans le titre
+        result.append('"'+soup.find('h1').text.replace('"','""')+'"')
 
         #ajout du prix avec les taxes. Attention un Â se glisse devant a cause de html.parser
         result.append(tds[3].text[1:])
@@ -143,7 +143,7 @@ def sauvegardeImage(lien, nomlivre):
     if reponse.ok:
 
         #ouvre un fichier en wb (write binaire) pour enregistrer l'image. ouverture en binaire obligatoire pour l'image recu
-        with open("./result/"+nomlivre+".jpg", 'wb') as image:
+        with open("./result/Images/"+nomlivre+".jpg", 'wb') as image:
 
             #recupe le content de la reponse
             image.write(reponse.content)

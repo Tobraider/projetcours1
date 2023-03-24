@@ -24,7 +24,9 @@ ETAPE POUR EXECUTER LE SCRIPT
 1. Installation et execution de l'environnement virtuel :
 
     python -m venv env
+
     .\env\Scripts\activate
+    
     pip install -r .\requirements.txt
 
 2. Execution du script :

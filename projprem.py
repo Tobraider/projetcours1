@@ -6,8 +6,9 @@ url = "http://books.toscrape.com"
 
 def recupecategorie(liendusite):    #recupere toutes les categorie et les parcours une a une
 
-    reponse = requests.get(liendusite)      #fait une requete au site
-    if reponse.ok:      #verifie si requete ok (200...)
+    result = myRequest(liendusite)
+    if result[1]:
+        reponse = result[0]
         soup = BeautifulSoup(reponse.text, "html.parser")   #transforme la reponse en donnée utilisable par bs4 (format choisi html.parser)
 
         #recuper le ul dans lequel il y a tout le <li> qui affiche chacun une categorie
@@ -37,8 +38,9 @@ def checkcategorie(liendepage):     #recupere tout les liens des pages livres et
         #passe TOUTE les pages de la categorie
         page = 1
         while page > 0:
-            reponse = requests.get(lien)
-            if reponse.ok:  #si page existe
+            result = myRequest(lien)
+            if result[1]:
+                reponse = result[0]  #si page existe
                 page += 1
                 soup = BeautifulSoup(reponse.text, "html.parser")
 
@@ -61,8 +63,9 @@ def checkpagelivre(nomlivre, outfile):      #recupe la page du livre et recupere
     #genere le liens de la page
     liendelapage = "http://books.toscrape.com/catalogue/"+nomlivre+"/index.html"
 
-    reponse = requests.get(liendelapage)
-    if reponse.ok:
+    result = myRequest(liendelapage)
+    if result[1]:
+        reponse = result[0]
 
         #initialise avec le lien de la page
         result = [liendelapage]
@@ -90,9 +93,8 @@ def checkpagelivre(nomlivre, outfile):      #recupe la page du livre et recupere
         #recupe tout les <p> car plusieurs donnée a l'interieur
         ps = soup.findAll('p')
 
-        #ajout de la description du produit mets des guillement car virgule dedans. remplace ensuite toutes les guillemets par des doubles car convention
-        # result.append('"'+ps[3].text.replace('"','""')+'"')
-        result.append('"'+soup.findAll['meta'].find["class":"description"].text.replace('"','""')+'"')
+        #ajout de la description du produit mets des guillement car virgule dedans. remplace ensuite toutes les guillemets par des doubles car convention. Retire 5 cararctere au debut car il y a un \n et 4 espaces
+        result.append('"'+soup.find('meta', {"name":"description"})["content"].replace('"','""')[5:]+'"')
 
         #ajout de la categorie
         result.append(soup.findAll('a')[3].text)
@@ -155,6 +157,14 @@ def sauvegardeImage(lien, nomlivre):
     #retourne le lien car doit etre enregistrer ailleurs.
     return lien
 
+
+def myRequest(lien):
+    reponse = requests.get(lien)    #fait une requete au site
+    if reponse.ok:                  #verifie si requete ok (200...)
+        reponse.encoding="utf-8"    #converti tout en utf-8
+        return reponse,True         #ajout de true car condition plus tard possible
+    else:
+        return reponse,False
 
 #execute le programme
 recupecategorie("http://books.toscrape.com/catalogue/category/books_1/index.html")

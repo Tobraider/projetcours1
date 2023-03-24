@@ -22,12 +22,15 @@ Les données sont enregistrées dans un fichier CSV portant le nom de la categor
 
 ETAPE POUR EXECUTER LE SCRIPT
 1. Installation et execution de l'environnement virtuel :
+
     python -m venv env
     .\env\Scripts\activate
     pip install -r .\requirements.txt
 
 2. Execution du script :
+
     .\projprem.py
 
 3. Une fois le script terminer vous pouvez quitter l'environnement virutel :
+
     deactivate

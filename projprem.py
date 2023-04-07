@@ -6,9 +6,8 @@ url = "http://books.toscrape.com"
 
 def recupecategorie(liendusite):    #recupere toutes les categorie et les parcours une a une
 
-    result = myRequest(liendusite)
-    if result[1]:
-        reponse = result[0]
+    reponse,result = myRequest(liendusite)
+    if result:
         soup = BeautifulSoup(reponse.text, "html.parser")   #transforme la reponse en donnée utilisable par bs4 (format choisi html.parser)
 
         #recuper le ul dans lequel il y a tout le <li> qui affiche chacun une categorie
@@ -38,9 +37,8 @@ def checkcategorie(liendepage):     #recupere tout les liens des pages livres et
         #passe TOUTE les pages de la categorie
         page = 1
         while page > 0:
-            result = myRequest(lien)
-            if result[1]:
-                reponse = result[0]  #si page existe
+            reponse,result = myRequest(lien)
+            if result: #si page existe
                 page += 1
                 soup = BeautifulSoup(reponse.text, "html.parser")
 
@@ -63,9 +61,8 @@ def checkpagelivre(nomlivre, outfile):      #recupe la page du livre et recupere
     #genere le liens de la page
     liendelapage = "http://books.toscrape.com/catalogue/"+nomlivre+"/index.html"
 
-    result = myRequest(liendelapage)
-    if result[1]:
-        reponse = result[0]
+    reponse,result = myRequest(liendelapage)
+    if result:
 
         #initialise avec le lien de la page
         result = [liendelapage]

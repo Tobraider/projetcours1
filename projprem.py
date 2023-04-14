@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import os
 
 url = "http://books.toscrape.com"
 
@@ -20,8 +21,10 @@ def recupecategorie(liendusite):    #recupere toutes les categorie et les parcou
 
 def checkcategorie(liendepage):     #recupere tout les liens des pages livres et les parcours
 
+    checkExistPath("result/CSV/")
+    
     #recupere le nom de la categorie et en fait le nom du ficher
-    nomfichier = "./result/CSV/"+liendepage.split('/')[-2].split('_')[0] + ".csv"
+    nomfichier = "result/CSV/"+liendepage.split('/')[-2].split('_')[0] + ".csv"
     with open(nomfichier, "w", encoding="utf-8") as outfile:
 
         #entete des categorie. elles sont les meme quelque soit la categorie
@@ -142,8 +145,10 @@ def sauvegardeImage(lien, nomlivre):
     reponse = requests.get(lien)
     if reponse.ok:
 
+        checkExistPath("result/Images/")
+
         #ouvre un fichier en wb (write binaire) pour enregistrer l'image. ouverture en binaire obligatoire pour l'image recu
-        with open("./result/Images/"+nomlivre+".jpg", 'wb') as image:
+        with open("result/Images/"+nomlivre+".jpg", 'wb') as image:
 
             #recupe le content de la reponse
             image.write(reponse.content)
@@ -154,6 +159,10 @@ def sauvegardeImage(lien, nomlivre):
     #retourne le lien car doit etre enregistrer ailleurs.
     return lien
 
+def checkExistPath(path):
+    #test si fichier existe
+    if not os.path.exists(path):
+        os.makedirs(path) #creer un fichier
 
 def myRequest(lien):
     reponse = requests.get(lien)    #fait une requete au site

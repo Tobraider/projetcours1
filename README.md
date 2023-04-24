@@ -19,7 +19,7 @@ Les données sont enregistrées dans un fichier CSV portant le nom de la categor
 /!\ TOUTES LES DONNEES RESULTANT DU SCRIPTS SONT STOCKER DANS LE DOSSIER result. /!\
 /!\ UN .gitkeep EST PRESENT DANS CES FICHIERS POUR LES FAIRE APPARAITRE DANS GITHUB /!\
 
-
+Python >= 3.10
 
 ETAPE POUR EXECUTER LE SCRIPT
 1. Installation et execution de l'environnement virtuel :
